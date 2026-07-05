@@ -13,7 +13,7 @@ export class ShipmentService {
 		private biteship: BiteshipProvider,
 	) {}
 
-	async createShipment(orderId: number) {
+	async createShipment(orderId: string) {
 		const order = await this.orderRepo.findById(orderId);
 		if (!order) throw new NotFoundError("Order not found");
 

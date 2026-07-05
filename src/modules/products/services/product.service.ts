@@ -15,7 +15,7 @@ export class ProductService {
 		return product;
 	}
 
-	async findById(id: number) {
+	async findById(id: string) {
 		const product = await this.repo.findById(id);
 		if (!product) throw new NotFoundError("Product not found");
 		return product;
@@ -29,7 +29,7 @@ export class ProductService {
 		} as Record<string, unknown>);
 	}
 
-	async update(id: number, dto: UpdateProductDto) {
+	async update(id: string, dto: UpdateProductDto) {
 		await this.findById(id);
 		const { image_url, ...data } = dto;
 		return this.repo.update(id, {
@@ -38,7 +38,7 @@ export class ProductService {
 		} as Record<string, unknown>);
 	}
 
-	async delete(id: number) {
+	async delete(id: string) {
 		await this.findById(id);
 		await this.repo.delete(id);
 	}

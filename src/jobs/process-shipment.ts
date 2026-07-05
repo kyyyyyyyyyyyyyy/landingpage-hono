@@ -6,7 +6,7 @@ import { logger } from "../utils/logger";
  * Called when Biteship webhook updates shipment status.
  * Syncs shipment status to the order.
  */
-export async function processShipmentJob(shipmentId: number) {
+export async function processShipmentJob(shipmentId: string) {
 	logger.info(`Processing shipment #${shipmentId}`);
 
 	const orderRepo = new OrderRepository();

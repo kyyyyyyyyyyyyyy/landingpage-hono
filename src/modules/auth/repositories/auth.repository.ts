@@ -11,7 +11,7 @@ export class AuthRepository {
 		return result[0] || null;
 	}
 
-	async findById(id: number) {
+	async findById(id: string) {
 		const result = await db
 			.select()
 			.from(schema.users)

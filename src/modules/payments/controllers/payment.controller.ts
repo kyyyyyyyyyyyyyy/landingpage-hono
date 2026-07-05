@@ -6,7 +6,7 @@ export class PaymentController {
 	constructor(private service: PaymentService) {}
 
 	async createTransaction(c: Context) {
-		const orderId = Number(c.req.param("orderId"));
+		const orderId = String(c.req.param("orderId"));
 		const result = await this.service.createTransaction(orderId);
 		return ok(c, result);
 	}

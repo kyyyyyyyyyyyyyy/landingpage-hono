@@ -18,7 +18,7 @@ export class OrderRepository {
 		return result[0] || null;
 	}
 
-	async findById(id: number) {
+	async findById(id: string) {
 		const result = await db
 			.select()
 			.from(schema.orders)
@@ -32,7 +32,7 @@ export class OrderRepository {
 		return result[0];
 	}
 
-	async update(id: number, data: any) {
+	async update(id: string, data: any) {
 		const result = await db
 			.update(schema.orders)
 			.set(data)

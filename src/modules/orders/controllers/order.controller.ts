@@ -12,7 +12,7 @@ export class OrderController {
 	}
 
 	async getById(c: Context) {
-		const id = Number(c.req.param("id"));
+		const id = String(c.req.param("id"));
 		const order = await this.service.findById(id);
 		return ok(c, order);
 	}

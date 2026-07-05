@@ -3,15 +3,15 @@ import {
 	jsonb,
 	numeric,
 	pgTable,
-	serial,
 	text,
 	timestamp,
 	varchar,
+	uuid,
 } from "drizzle-orm/pg-core";
 
 export const payments = pgTable("payments", {
-	id: serial("id").primaryKey(),
-	orderId: integer("order_id").notNull(),
+	id: uuid("id").defaultRandom().primaryKey(),
+	orderId: uuid("order_id").notNull(),
 	transactionId: varchar("transaction_id", { length: 255 }),
 	grossAmount: numeric("gross_amount", { precision: 12, scale: 2 }).notNull(),
 	status: varchar("status", { length: 50 }).notNull().default("pending"),

@@ -15,7 +15,7 @@ export class ProductRepository {
 		return result[0] || null;
 	}
 
-	async findById(id: number) {
+	async findById(id: string) {
 		const result = await db
 			.select()
 			.from(schema.products)
@@ -29,7 +29,7 @@ export class ProductRepository {
 		return result[0];
 	}
 
-	async update(id: number, data: any) {
+	async update(id: string, data: any) {
 		const result = await db
 			.update(schema.products)
 			.set(data)
@@ -38,7 +38,7 @@ export class ProductRepository {
 		return result[0];
 	}
 
-	async delete(id: number) {
+	async delete(id: string) {
 		await db.delete(schema.products).where(eq(schema.products.id, id));
 	}
 }

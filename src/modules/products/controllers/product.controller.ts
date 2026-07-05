@@ -18,7 +18,7 @@ export class ProductController {
 	}
 
 	async getById(c: Context) {
-		const id = Number(c.req.param("id"));
+		const id = c.req.param("id") as string;
 		const product = await this.service.findById(id);
 		return ok(c, product);
 	}
@@ -30,14 +30,14 @@ export class ProductController {
 	}
 
 	async update(c: Context) {
-		const id = Number(c.req.param("id"));
+		const id = c.req.param("id") as string;
 		const dto = (c.req.valid as any)("json") as UpdateProductDto;
 		const product = await this.service.update(id, dto);
 		return ok(c, product);
 	}
 
 	async delete(c: Context) {
-		const id = Number(c.req.param("id"));
+		const id = c.req.param("id") as string;
 		await this.service.delete(id);
 		return ok(c, null, "Product deleted");
 	}

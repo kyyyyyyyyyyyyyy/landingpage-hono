@@ -2,15 +2,15 @@ import {
 	integer,
 	jsonb,
 	pgTable,
-	serial,
 	text,
 	timestamp,
 	varchar,
+	uuid,
 } from "drizzle-orm/pg-core";
 
 export const shipments = pgTable("shipments", {
-	id: serial("id").primaryKey(),
-	orderId: integer("order_id").notNull(),
+	id: uuid("id").defaultRandom().primaryKey(),
+	orderId: uuid("order_id").notNull(),
 	courier: varchar("courier", { length: 100 }),
 	trackingId: varchar("tracking_id", { length: 255 }),
 	waybillId: varchar("waybill_id", { length: 255 }),

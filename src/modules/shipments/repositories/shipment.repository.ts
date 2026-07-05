@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { db, schema } from "../../../database";
 
 export class ShipmentRepository {
-	async findByOrderId(orderId: number) {
+	async findByOrderId(orderId: string) {
 		const result = await db
 			.select()
 			.from(schema.shipments)
@@ -20,7 +20,7 @@ export class ShipmentRepository {
 		return result[0] || null;
 	}
 
-	async findById(id: number) {
+	async findById(id: string) {
 		const result = await db
 			.select()
 			.from(schema.shipments)
@@ -34,7 +34,7 @@ export class ShipmentRepository {
 		return result[0];
 	}
 
-	async update(id: number, data: any) {
+	async update(id: string, data: any) {
 		const result = await db
 			.update(schema.shipments)
 			.set(data)

@@ -10,7 +10,7 @@ import { logger } from "../utils/logger";
  * Called when Midtrans settlement webhook is received.
  * Automatically creates a Biteship shipment for the paid order.
  */
-export async function processSettlementJob(orderId: number) {
+export async function processSettlementJob(orderId: string) {
 	logger.info(`Processing settlement for order #${orderId}`);
 
 	const orderRepo = new OrderRepository();

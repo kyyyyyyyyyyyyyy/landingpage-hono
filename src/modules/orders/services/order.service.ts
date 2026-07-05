@@ -15,7 +15,7 @@ export class OrderService {
 		return order;
 	}
 
-	async findById(id: number) {
+	async findById(id: string) {
 		const order = await this.repo.findById(id);
 		if (!order) throw new NotFoundError("Order not found");
 		return order;
@@ -36,7 +36,7 @@ export class OrderService {
 		});
 	}
 
-	async update(id: number, data: Record<string, unknown>) {
+	async update(id: string, data: Record<string, unknown>) {
 		await this.findById(id);
 		return this.repo.update(id, data);
 	}

@@ -1,5 +1,5 @@
 export interface JwtPayload {
-	id: number;
+	id: string;
 	email: string;
 	role: string;
 }
@@ -12,7 +12,7 @@ export interface LoginRequest {
 export interface LoginResponse {
 	token: string;
 	user: {
-		id: number;
+		id: string;
 		email: string;
 		name: string;
 		role: string;

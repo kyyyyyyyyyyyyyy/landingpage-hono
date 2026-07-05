@@ -3,16 +3,16 @@ import {
 	jsonb,
 	numeric,
 	pgTable,
-	serial,
 	text,
 	timestamp,
 	varchar,
+	uuid,
 } from "drizzle-orm/pg-core";
 
 export const orders = pgTable("orders", {
-	id: serial("id").primaryKey(),
+	id: uuid("id").defaultRandom().primaryKey(),
 	orderCode: varchar("order_code", { length: 50 }).notNull().unique(),
-	productId: integer("product_id").notNull(),
+	productId: uuid("product_id").notNull(),
 	customerName: varchar("customer_name", { length: 255 }).notNull(),
 	customerEmail: varchar("customer_email", { length: 255 }).notNull(),
 	customerPhone: varchar("customer_phone", { length: 50 }).notNull(),

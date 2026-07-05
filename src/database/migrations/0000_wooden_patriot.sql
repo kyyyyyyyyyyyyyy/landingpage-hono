@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "orders" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"order_code" varchar(50) NOT NULL,
-	"product_id" integer NOT NULL,
+	"product_id" uuid NOT NULL,
 	"customer_name" varchar(255) NOT NULL,
 	"customer_email" varchar(255) NOT NULL,
 	"customer_phone" varchar(50) NOT NULL,
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "orders" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "payments" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"order_id" integer NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"order_id" uuid NOT NULL,
 	"transaction_id" varchar(255),
 	"gross_amount" numeric(12, 2) NOT NULL,
 	"status" varchar(50) DEFAULT 'pending' NOT NULL,
@@ -30,13 +30,14 @@ CREATE TABLE IF NOT EXISTS "payments" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "products" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"slug" varchar(255) NOT NULL,
 	"description" text,
 	"price" numeric(12, 2) NOT NULL,
 	"weight" integer DEFAULT 1000 NOT NULL,
 	"image_url" varchar(500),
+	"variants" jsonb DEFAULT '[]'::jsonb NOT NULL,
 	"landing_page_id" integer DEFAULT 1 NOT NULL,
 	"is_active" varchar(10) DEFAULT 'true' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
@@ -45,8 +46,8 @@ CREATE TABLE IF NOT EXISTS "products" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "shipments" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"order_id" integer NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"order_id" uuid NOT NULL,
 	"courier" varchar(100),
 	"tracking_id" varchar(255),
 	"waybill_id" varchar(255),
@@ -60,7 +61,7 @@ CREATE TABLE IF NOT EXISTS "shipments" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"password" varchar(255) NOT NULL,
 	"name" varchar(255) NOT NULL,

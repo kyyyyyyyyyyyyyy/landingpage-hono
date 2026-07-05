@@ -11,13 +11,13 @@ export class ShipmentController {
 	}
 
 	async create(c: Context) {
-		const orderId = Number(c.req.param("orderId"));
+		const orderId = String(c.req.param("orderId"));
 		const result = await this.service.createShipment(orderId);
 		return ok(c, result);
 	}
 
 	async getByOrder(c: Context) {
-		const orderId = Number(c.req.param("orderId"));
+		const orderId = String(c.req.param("orderId"));
 		const shipment = await this.repo.findByOrderId(orderId);
 		return ok(c, shipment);
 	}

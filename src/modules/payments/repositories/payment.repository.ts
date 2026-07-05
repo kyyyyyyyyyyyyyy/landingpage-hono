@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { db, schema } from "../../../database";
 
 export class PaymentRepository {
-	async findByOrderId(orderId: number) {
+	async findByOrderId(orderId: string) {
 		const result = await db
 			.select()
 			.from(schema.payments)
@@ -16,7 +16,7 @@ export class PaymentRepository {
 		return result[0];
 	}
 
-	async update(id: number, data: any) {
+	async update(id: string, data: any) {
 		const result = await db
 			.update(schema.payments)
 			.set(data)

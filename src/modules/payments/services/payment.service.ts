@@ -13,7 +13,7 @@ export class PaymentService {
 		private midtrans: MidtransProvider,
 	) {}
 
-	async createTransaction(orderId: number) {
+	async createTransaction(orderId: string) {
 		const order = await this.orderRepo.findById(orderId);
 		if (!order) throw new BadRequestError("Order not found");
 
