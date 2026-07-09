@@ -20,8 +20,28 @@ export class OrderRepository {
 
 	async findById(id: string) {
 		const result = await db
-			.select()
+			.select({
+				id: schema.orders.id,
+				orderCode: schema.orders.orderCode,
+				productId: schema.orders.productId,
+				customerName: schema.orders.customerName,
+				customerEmail: schema.orders.customerEmail,
+				customerPhone: schema.orders.customerPhone,
+				shippingAddress: schema.orders.shippingAddress,
+				quantity: schema.orders.quantity,
+				totalAmount: schema.orders.totalAmount,
+				status: schema.orders.status,
+				snapToken: schema.orders.snapToken,
+				redirectUrl: schema.orders.redirectUrl,
+				createdAt: schema.orders.createdAt,
+				updatedAt: schema.orders.updatedAt,
+				product: schema.products,
+			})
 			.from(schema.orders)
+			.leftJoin(
+				schema.products,
+				eq(schema.orders.productId, schema.products.id),
+			)
 			.where(eq(schema.orders.id, id))
 			.limit(1);
 		return result[0] || null;
