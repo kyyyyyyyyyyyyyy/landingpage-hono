@@ -17,6 +17,7 @@ export const createOrderSchema = z.object({
 	customerEmail: z.string().email(),
 	customerPhone: z.string().min(1),
 	shippingAddress: shippingAddressSchema,
+	shippingCost: z.number().nonnegative().default(0),
 });
 
 export type CreateOrderDto = z.infer<typeof createOrderSchema>;

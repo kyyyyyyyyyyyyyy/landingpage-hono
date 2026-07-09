@@ -20,7 +20,25 @@ export class PaymentService {
 		const product = await this.productRepo.findById(order.productId);
 		if (!product) throw new BadRequestError("Product not found");
 
-		const totalAmount = Number(product.price) * order.quantity;
+		const totalAmount = Number(order.totalAmount);
+
+		const items: any[] = [
+			{
+				id: String(product.id),
+				name: product.name,
+				price: Number(product.price),
+				quantity: order.quantity,
+			},
+		];
+
+		if (Number(order.shippingCost) > 0) {
+			items.push({
+				id: "SHIPPING",
+				name: "Ongkos Kirim",
+				price: Number(order.shippingCost),
+				quantity: 1,
+			});
+		}
 
 		const transaction = await this.midtrans.createTransaction({
 			orderId: order.orderCode,
@@ -28,14 +46,7 @@ export class PaymentService {
 			customerName: order.customerName,
 			customerEmail: order.customerEmail,
 			customerPhone: order.customerPhone,
-			items: [
-				{
-					id: String(product.id),
-					name: product.name,
-					price: Number(product.price),
-					quantity: order.quantity,
-				},
-			],
+			items,
 		});
 
 		await this.orderRepo.update(order.id, {

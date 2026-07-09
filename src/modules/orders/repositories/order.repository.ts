@@ -30,6 +30,7 @@ export class OrderRepository {
 				shippingAddress: schema.orders.shippingAddress,
 				quantity: schema.orders.quantity,
 				totalAmount: schema.orders.totalAmount,
+				shippingCost: schema.orders.shippingCost,
 				status: schema.orders.status,
 				snapToken: schema.orders.snapToken,
 				redirectUrl: schema.orders.redirectUrl,
@@ -59,5 +60,14 @@ export class OrderRepository {
 			.where(eq(schema.orders.id, id))
 			.returning();
 		return result[0];
+	}
+
+	async findProductById(id: string) {
+		const result = await db
+			.select()
+			.from(schema.products)
+			.where(eq(schema.products.id, id))
+			.limit(1);
+		return result[0] || null;
 	}
 }

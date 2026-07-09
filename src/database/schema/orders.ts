@@ -19,6 +19,7 @@ export const orders = pgTable("orders", {
 	shippingAddress: jsonb("shipping_address").notNull(),
 	quantity: integer("quantity").notNull().default(1),
 	totalAmount: numeric("total_amount", { precision: 12, scale: 2 }).notNull(),
+	shippingCost: numeric("shipping_cost", { precision: 12, scale: 2 }).notNull().default("0"),
 	status: varchar("status", { length: 50 }).notNull().default("pending"),
 	snapToken: text("snap_token"),
 	redirectUrl: text("redirect_url"),

@@ -22,18 +22,33 @@ export class OrderService {
 	}
 
 	async create(dto: CreateOrderDto) {
-		const orderCode = await this.generateOrderCode();
-		return this.repo.create({
-			orderCode,
-			productId: dto.productId,
-			customerName: dto.customerName,
-			customerEmail: dto.customerEmail,
-			customerPhone: dto.customerPhone,
-			shippingAddress: JSON.stringify(dto.shippingAddress),
-			quantity: dto.quantity,
-			totalAmount: "0",
-			status: "pending",
-		});
+	const product = await this.repo.findProductById(dto.productId);
+
+	if (!product) {
+		throw new NotFoundError("Product not found");
+	}
+
+	const unitPrice = Number(product.price);
+	const quantity = Number(dto.quantity);
+	const shippingCost = Number(dto.shippingCost);
+
+	const subtotal = unitPrice * quantity;
+	const totalAmount = subtotal + shippingCost;
+
+	const orderCode = await this.generateOrderCode();
+
+	return this.repo.create({
+		orderCode,
+		productId: dto.productId,
+		customerName: dto.customerName,
+		customerEmail: dto.customerEmail,
+		customerPhone: dto.customerPhone,
+		shippingAddress: JSON.stringify(dto.shippingAddress),
+		quantity,
+		shippingCost: String(shippingCost),
+		totalAmount: String(totalAmount),
+		status: "pending",
+	});
 	}
 
 	async update(id: string, data: Record<string, unknown>) {
