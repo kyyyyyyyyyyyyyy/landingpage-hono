@@ -11,7 +11,7 @@ export const shippingAddressSchema = z.object({
 });
 
 export const createOrderSchema = z.object({
-	productId: z.number().positive(),
+	productId: z.string().uuid(),
 	quantity: z.number().positive().default(1),
 	customerName: z.string().min(1),
 	customerEmail: z.string().email(),

@@ -9,24 +9,38 @@ export interface BiteshipShippingAddress {
 export interface BiteshipCreateShipmentParams {
 	orderId: string;
 	courier: string;
-	courierService: string;
+	courierType: string;
 	origin: BiteshipShippingAddress;
 	destination: BiteshipShippingAddress;
 	items: Array<{
 		name: string;
+		value: number;
 		quantity: number;
 		weight: number;
-		price: number;
 	}>;
 }
 
 export interface BiteshipShipmentResponse {
-	status: string;
-	tracking_id: string;
-	waybill_id: string;
-	courier: string;
-	courier_service: string;
-	shipping_cost: number;
+    status: string;
+    trackingId: string;
+    waybillId: string;
+    courier: string;
+    courierService: string;
+    shippingCost: number;
+    rawResponse: unknown;
+}
+
+export interface BiteshipApiResponse {
+    status: string;
+
+    courier: {
+        tracking_id: string;
+        waybill_id: string;
+        company: string;
+        type: string;
+    };
+
+    price: number;
 }
 
 export interface BiteshipWebhookPayload {

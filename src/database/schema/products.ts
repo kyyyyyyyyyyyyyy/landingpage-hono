@@ -16,7 +16,7 @@ export const products = pgTable("products", {
 	description: text("description"),
 	price: numeric("price", { precision: 12, scale: 2 }).notNull(),
 	weight: integer("weight").notNull().default(1000),
-	imageUrl: varchar("image_url", { length: 500 }),
+	imageUrls: jsonb("image_url").$type<string[]>().default([]).notNull(),
 	variants: jsonb("variants").default([]).notNull(),
 	landingPageId: integer("landing_page_id").notNull().default(1),
 	isActive: varchar("is_active", { length: 10 }).notNull().default("true"),

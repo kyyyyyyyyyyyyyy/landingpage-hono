@@ -5,7 +5,7 @@ export interface ProductResponse {
 	description: string | null;
 	price: string;
 	weight: number;
-	imageUrl: string | null;
+	imageUrls: string[];
 	variants: Array<{ name: string; options: string[] }>;
 	isActive: boolean;
 }

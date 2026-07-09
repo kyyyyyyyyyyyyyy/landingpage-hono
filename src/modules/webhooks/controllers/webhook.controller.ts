@@ -52,8 +52,8 @@ export class WebhookController {
 				paymentType: payload.payment_type,
 				rawResponse: JSON.stringify(payload),
 				settledAt: payload.settlement_time
-					? new Date(payload.settlement_time).toISOString()
-					: new Date().toISOString(),
+					? new Date(payload.settlement_time)
+					: new Date(),
 			});
 
 			await this.orderRepo.update(order.id, {

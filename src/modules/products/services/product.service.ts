@@ -22,19 +22,19 @@ export class ProductService {
 	}
 
 	async create(dto: CreateProductDto) {
-		const { image_url, ...data } = dto;
+		const { image_urls, ...data } = dto;
 		return this.repo.create({
 			...data,
-			imageUrl: image_url,
+			imageUrls: image_urls,
 		} as Record<string, unknown>);
 	}
 
 	async update(id: string, dto: UpdateProductDto) {
 		await this.findById(id);
-		const { image_url, ...data } = dto;
+		const { image_urls, ...data } = dto;
 		return this.repo.update(id, {
 			...data,
-			...(image_url !== undefined ? { imageUrl: image_url } : {}),
+			...(image_urls !== undefined ? { imageUrls: image_urls } : {}),
 		} as Record<string, unknown>);
 	}
 

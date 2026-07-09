@@ -7,14 +7,14 @@ import { NotFoundError } from "../../shared/errors";
 
 describe("Product Module - Validation Tests", () => {
   describe("createProductSchema", () => {
-    it("should validate successfully with correct data including image_url and variants", () => {
+    it("should validate successfully with correct data including image_urls and variants", () => {
       const validData = {
         name: "Test Product",
         slug: "test-product",
         description: "Test description",
         price: 150000,
         weight: 1000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
         variants: [
           {
             name: "Warna",
@@ -30,7 +30,7 @@ describe("Product Module - Validation Tests", () => {
       const result = createProductSchema.safeParse(validData);
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.image_url).toBe(validData.image_url);
+        expect(result.data.image_urls).toEqual(validData.image_urls);
         expect(result.data.variants).toEqual(validData.variants);
       }
     });
@@ -40,7 +40,7 @@ describe("Product Module - Validation Tests", () => {
         name: "Test Product",
         slug: "test-product",
         price: 150000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
       };
 
       const result = createProductSchema.safeParse(validData);
@@ -50,7 +50,7 @@ describe("Product Module - Validation Tests", () => {
       }
     });
 
-    it("should fail validation if image_url is missing during creation", () => {
+    it("should fail validation if image_urls is missing during creation", () => {
       const invalidData = {
         name: "Test Product",
         slug: "test-product",
@@ -66,7 +66,7 @@ describe("Product Module - Validation Tests", () => {
         name: "",
         slug: "test-product",
         price: 150000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
       };
 
       const result = createProductSchema.safeParse(invalidData);
@@ -78,19 +78,19 @@ describe("Product Module - Validation Tests", () => {
         name: "Test Product",
         slug: "test-product",
         price: -500,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
       };
 
       const result = createProductSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
     });
 
-    it("should fail validation if image_url is not a valid URL", () => {
+    it("should fail validation if image_urls contains an invalid URL", () => {
       const invalidData = {
         name: "Test Product",
         slug: "test-product",
         price: 150000,
-        image_url: "not-a-valid-url",
+        image_urls: ["not-a-valid-url"],
       };
 
       const result = createProductSchema.safeParse(invalidData);
@@ -102,7 +102,7 @@ describe("Product Module - Validation Tests", () => {
         name: "Test Product",
         slug: "test-product",
         price: 150000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
         variants: [
           {
             name: "",
@@ -120,7 +120,7 @@ describe("Product Module - Validation Tests", () => {
         name: "Test Product",
         slug: "test-product",
         price: 150000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
         variants: [
           {
             name: "Warna",
@@ -138,7 +138,7 @@ describe("Product Module - Validation Tests", () => {
         name: "Test Product",
         slug: "test-product",
         price: 150000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
         variants: [
           {
             name: "Warna",
@@ -156,7 +156,7 @@ describe("Product Module - Validation Tests", () => {
         name: "Test Product",
         slug: "test-product",
         price: 150000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
         variants: [
           {
             name: "Warna",
@@ -175,9 +175,9 @@ describe("Product Module - Validation Tests", () => {
   });
 
   describe("updateProductSchema", () => {
-    it("should validate successfully with optional image_url and variants", () => {
+    it("should validate successfully with optional image_urls and variants", () => {
       const validData = {
-        image_url: "https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v12345/sample.jpg"],
         variants: [
           {
             name: "Bahan",
@@ -189,7 +189,7 @@ describe("Product Module - Validation Tests", () => {
       const result = updateProductSchema.safeParse(validData);
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.image_url).toBe(validData.image_url);
+        expect(result.data.image_urls).toEqual(validData.image_urls);
         expect(result.data.variants).toEqual(validData.variants);
       }
     });
@@ -274,13 +274,13 @@ describe("Product Module - Service Unit Tests", () => {
   });
 
   describe("create", () => {
-    it("should map image_url to imageUrl and create product with variants", async () => {
+    it("should map image_urls to imageUrls and create product with variants", async () => {
       const dto = {
         name: "New Product",
         slug: "new-product",
         price: 20000,
         weight: 1000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v123/img.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v123/img.jpg"],
         variants: [
           {
             name: "Warna",
@@ -289,7 +289,7 @@ describe("Product Module - Service Unit Tests", () => {
         ],
       };
 
-      const createdProduct = { id: "1", ...dto, imageUrl: dto.image_url };
+      const createdProduct = { id: "1", ...dto, imageUrls: dto.image_urls };
       repository.create.mockResolvedValue(createdProduct);
 
       const result = await service.create(dto);
@@ -299,7 +299,7 @@ describe("Product Module - Service Unit Tests", () => {
         slug: "new-product",
         price: 20000,
         weight: 1000,
-        imageUrl: "https://res.cloudinary.com/demo/image/upload/v123/img.jpg",
+        imageUrls: ["https://res.cloudinary.com/demo/image/upload/v123/img.jpg"],
         variants: [
           {
             name: "Warna",
@@ -311,13 +311,13 @@ describe("Product Module - Service Unit Tests", () => {
   });
 
   describe("update", () => {
-    it("should map image_url to imageUrl and update product variants when product exists", async () => {
-      const existingProduct = { id: "1", name: "Product", slug: "product", price: "100", imageUrl: null, variants: [] };
+    it("should map image_urls to imageUrls and update product variants when product exists", async () => {
+      const existingProduct = { id: "1", name: "Product", slug: "product", price: "100", imageUrls: [], variants: [] };
       repository.findById.mockResolvedValue(existingProduct);
 
       const dto = {
         price: 25000,
-        image_url: "https://res.cloudinary.com/demo/image/upload/v123/img-updated.jpg",
+        image_urls: ["https://res.cloudinary.com/demo/image/upload/v123/img-updated.jpg"],
         variants: [
           {
             name: "Ukuran",
@@ -326,14 +326,14 @@ describe("Product Module - Service Unit Tests", () => {
         ],
       };
 
-      const updatedProduct = { id: "1", name: "Product", slug: "product", price: 25000, imageUrl: dto.image_url, variants: dto.variants };
+      const updatedProduct = { id: "1", name: "Product", slug: "product", price: 25000, imageUrls: dto.image_urls, variants: dto.variants };
       repository.update.mockResolvedValue(updatedProduct);
 
       const result = await service.update("1", dto);
       expect(result).toEqual(updatedProduct);
       expect(repository.update).toHaveBeenCalledWith("1", {
         price: 25000,
-        imageUrl: "https://res.cloudinary.com/demo/image/upload/v123/img-updated.jpg",
+        imageUrls: ["https://res.cloudinary.com/demo/image/upload/v123/img-updated.jpg"],
         variants: [
           {
             name: "Ukuran",

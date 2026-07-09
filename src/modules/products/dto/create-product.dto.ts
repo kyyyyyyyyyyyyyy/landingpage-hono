@@ -11,7 +11,7 @@ export const createProductSchema = z.object({
 	description: z.string().optional(),
 	price: z.number().positive(),
 	weight: z.number().positive().default(1000),
-	image_url: z.string().url("Image URL must be a valid URL"),
+	image_urls: z.array(z.string().url("Image URL must be a valid URL")).min(1, "At least one image URL is required"),
 	variants: z.array(variantSchema)
 		.optional()
 		.default([])

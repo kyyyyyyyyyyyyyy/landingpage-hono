@@ -33,13 +33,13 @@ export class ShipmentService {
 		const shipment = await this.biteship.createShipment({
 			orderId: order.orderCode,
 			courier: "jne",
-			courierService: "reg",
+			courierType: "reg",
 			origin: {
 				name: "Go Store",
 				phone: "6281234567890",
 				address: "Jl. Contoh No. 1",
 				city: "Jakarta",
-				postalCode: "12345",
+				postalCode: "45556",
 			},
 			destination: {
 				name: address.name,
@@ -51,9 +51,9 @@ export class ShipmentService {
 			items: [
 				{
 					name: product.name,
+					value: Number(product.price),
 					quantity: order.quantity,
 					weight: product.weight,
-					price: Number(product.price),
 				},
 			],
 		});
@@ -61,11 +61,11 @@ export class ShipmentService {
 		await this.repo.create({
 			orderId: order.id,
 			courier: shipment.courier,
-			trackingId: shipment.tracking_id,
-			waybillId: shipment.waybill_id,
+			trackingId: shipment.trackingId,
+			waybillId: shipment.waybillId,
 			status: "processing",
-			courierService: shipment.courier_service,
-			shippingCost: String(shipment.shipping_cost),
+			courierService: shipment.courierService,
+			shippingCost: String(shipment.shippingCost),
 			rawResponse: JSON.stringify(shipment),
 		});
 

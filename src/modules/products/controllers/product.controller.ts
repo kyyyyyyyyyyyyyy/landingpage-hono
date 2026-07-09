@@ -1,7 +1,9 @@
 import type { Context } from "hono";
 import { created, ok } from "../../../shared/helpers/response";
+import { BadRequestError } from "../../../shared/errors";
 import type { CreateProductDto, UpdateProductDto } from "../dto";
 import type { ProductService } from "../services/product.service";
+import { validateUUID } from "../validators/product.validator";
 
 export class ProductController {
 	constructor(private service: ProductService) {}
@@ -19,6 +21,9 @@ export class ProductController {
 
 	async getById(c: Context) {
 		const id = c.req.param("id") as string;
+		if (!validateUUID(id)) {
+			throw new BadRequestError("Invalid product ID format");
+		}
 		const product = await this.service.findById(id);
 		return ok(c, product);
 	}
@@ -31,6 +36,9 @@ export class ProductController {
 
 	async update(c: Context) {
 		const id = c.req.param("id") as string;
+		if (!validateUUID(id)) {
+			throw new BadRequestError("Invalid product ID format");
+		}
 		const dto = (c.req.valid as any)("json") as UpdateProductDto;
 		const product = await this.service.update(id, dto);
 		return ok(c, product);
@@ -38,6 +46,9 @@ export class ProductController {
 
 	async delete(c: Context) {
 		const id = c.req.param("id") as string;
+		if (!validateUUID(id)) {
+			throw new BadRequestError("Invalid product ID format");
+		}
 		await this.service.delete(id);
 		return ok(c, null, "Product deleted");
 	}

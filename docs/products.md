@@ -42,7 +42,7 @@ Status: 200 OK
       "description": "...",
       "price": "150000.00",
       "weight": 1000,
-      "image_url": "https://...",
+      "image_urls": ["https://..."],
       "variants": [],
       "landing_page_id": 1,
       "is_active": "true",
@@ -159,7 +159,7 @@ Content-Type: application/json
 | description | string | Opsional |
 | price | number | Wajib, positif |
 | weight | number | Opsional, default `1000`, harus positif |
-| image_url | string | Wajib, format URL valid |
+| image_urls | array[string] | Wajib, minimal 1 URL, setiap item harus format URL valid |
 | variants | array | Opsional, default `[]` |
 | variants[].name | string | Wajib, tidak boleh string kosong |
 | variants[].options | array[string] | Wajib, minimal 1 item, semua item tidak boleh string kosong |
@@ -172,7 +172,7 @@ Contoh:
   "description": "Deskripsi",
   "price": 150000,
   "weight": 1000,
-  "image_url": "https://example.com/image.jpg",
+  "image_urls": ["https://example.com/image1.jpg", "https://example.com/image2.jpg"],
   "variants": [
     { "name": "Warna", "options": ["Merah", "Kuning"] },
     { "name": "Ukuran", "options": ["M", "L"] }
@@ -208,11 +208,11 @@ Status: 201 Created
 - `slug`: required, minLength 1
 - `price`: required, number, positive
 - `weight`: optional, number, positive
-- `image_url`: required, valid URL
+- `image_urls`: required, array of valid URLs, minimal 1 item
 - `variants`: optional array. Setiap item harus punya `name` dan `options` minimal 1 elemen, tanpa duplikasi nama case-insensitive trim.
 
 ### Business Rules
-- Mapping nama field respon DB: `image_url` di request diteruskan sebagai `imageUrl`.
+- Mapping nama field respon DB: `image_urls` di request diteruskan sebagai `imageUrls`.
 - Slug harus unik.
 
 ### Database Effect
@@ -223,7 +223,7 @@ Status: 201 Created
 curl -X POST http://localhost:3000/api/v1/products \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"name":"Product A","slug":"product-a","price":150000,"image_url":"https://example.com/image.jpg"}'
+  -d '{"name":"Product A","slug":"product-a","price":150000,"image_urls":["https://example.com/image.jpg"]}'
 ```
 
 ---
@@ -257,7 +257,7 @@ Semua field opsional.
 | description | string | Opsional |
 | price | number | Opsional, positif |
 | weight | number | Opsional, positif |
-| image_url | string | Opsional, valid URL |
+| image_urls | array[string] | Opsional, setiap item harus URL valid |
 | isActive | boolean | Opsional |
 | variants | array | Opsional |
 
@@ -289,7 +289,7 @@ Status: 200 OK
 - Duplikasi nama variant dilarang.
 
 ### Business Rules
-- Jika `image_url` dikirim, dipetakan ke `imageUrl`.
+- Jika `image_urls` dikirim, dipetakan ke `imageUrls`.
 
 ### Database Effect
 - `products`

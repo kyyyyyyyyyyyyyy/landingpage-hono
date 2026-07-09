@@ -7,7 +7,7 @@ export const updateProductSchema = z.object({
 	description: z.string().optional(),
 	price: z.number().positive().optional(),
 	weight: z.number().positive().optional(),
-	image_url: z.string().url().optional(),
+	image_urls: z.array(z.string().url()).optional(),
 	isActive: z.boolean().optional(),
 	variants: z.array(variantSchema)
 		.optional()

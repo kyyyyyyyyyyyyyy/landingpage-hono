@@ -133,9 +133,11 @@ components:
         weight:
           type: integer
           example: 1000
-        image_url:
-          type: string
-          format: uri
+        image_urls:
+          type: array
+          items:
+            type: string
+            format: uri
         variants:
           type: array
           items:
@@ -162,7 +164,7 @@ components:
 
     CreateProductRequest:
       type: object
-      required: [name, slug, price, image_url]
+      required: [name, slug, price, image_urls]
       properties:
         name:
           type: string
@@ -180,9 +182,12 @@ components:
           type: number
           minimum: 1
           default: 1000
-        image_url:
-          type: string
-          format: uri
+        image_urls:
+          type: array
+          items:
+            type: string
+            format: uri
+          minItems: 1
         variants:
           type: array
           items:
@@ -207,9 +212,11 @@ components:
         weight:
           type: number
           minimum: 1
-        image_url:
-          type: string
-          format: uri
+        image_urls:
+          type: array
+          items:
+            type: string
+            format: uri
         isActive:
           type: boolean
         variants:
